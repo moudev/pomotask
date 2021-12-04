@@ -1,15 +1,18 @@
 <template>
-  <div>
+  <div class="text-6xl">
     <button v-if="isPlaying" @click="stopTimer">
-      Stop
+      <PauseOutline />
     </button>
     <button v-else @click="startTimer">
-      Play
+      <PlayOutline />
     </button>
   </div>
 </template>
 
 <script>
+import PlayOutline from '~icons/carbon/play-outline'
+import PauseOutline from '~icons/carbon/pause-outline'
+
 export default {
   props: {
     isPlaying: {
@@ -17,6 +20,10 @@ export default {
       required: true,
       default: false,
     }
+  },
+  components: {
+    PlayOutline,
+    PauseOutline,
   },
   methods: {
     startTimer() {
