@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-around">
+  <div class="flex justify-around bg-main text-color-main overflow-hidden">
     <Actions
       class="border"
       :isPlaying="isPlaying"
@@ -9,7 +9,7 @@
     
     <input
       v-if="!isPlaying"
-      class="border"
+      class="border bg-main"
       type="text"
       v-model="minutesToAdd"
       :min="MIN_MINUTES"
@@ -21,19 +21,24 @@
       :minutesToAdd="minutesToAdd"
       :isPlaying="isPlaying"
       @stopTimer="stopTimer"
-    />    
+    />
+    <ToggleThemeButton />
+    <h1 class="text-color-main">Primary</h1>
+    <h2 class="text-color-secondary">Secondary</h2>
   </div>
 </template>
 
 <script>
 import Actions from "./components/Actions.vue"
 import Timer from "./components/Timer.vue"
+import ToggleThemeButton from './components/ToggleThemeButton.vue'
 
 export default {
   name: 'App',
   components: {
     Actions,  
     Timer,
+    ToggleThemeButton,
   },
   data() {
     return {
