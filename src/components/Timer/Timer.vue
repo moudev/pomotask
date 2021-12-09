@@ -22,8 +22,8 @@
       :isPlaying="isPlaying"
       @stopTimer="stopTimer"
     />
-    <h1 class="text-color-main">Primary</h1>
-    <h2 class="text-color-secondary">Secondary</h2>
+    <!-- <h1 class="text-color-main">Primary</h1>
+    <h2 class="text-color-secondary">Secondary</h2> -->
   </div>
 </template>
 

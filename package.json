@@ -16,6 +16,7 @@
     "@iconify-json/carbon": "^1.0.12",
     "core-js": "^3.6.5",
     "dayjs": "^1.10.7",
+    "short-uuid": "^4.2.0",
     "unplugin-icons": "^0.12.22",
     "vue": "^2.6.11"
   },
