@@ -67,6 +67,8 @@ export default {
       toIndex: 0,
       currentTab: tabs.filter(t => t.isDefaultTab)[0],
       defaultTaskState: tabs.filter(t => t.isDefaultTab)[0],
+      TASKS_STORAGE_KEY: 'taks',
+      TAB_STORAGE_KEY: 'currentTab',
     }
   },
   methods: {
@@ -110,10 +112,28 @@ export default {
     },
     updateCurrentTab(tab) {
       this.currentTab = tab
+    },
+    // separate functions to use 'deep: true' in the watcher 'tasks'
+    // https://vuejs.org/v2/api/#watch
+    getTasksAndTabLocalStorage() {
+      const tasksFromLocalStorage = localStorage.getItem(this.TASKS_STORAGE_KEY)
+        ? JSON.parse(localStorage.getItem(this.TASKS_STORAGE_KEY))
+        : []
+
+      const currentTabLocalStorage = localStorage.getItem(this.TAB_STORAGE_KEY)
+        ? JSON.parse(localStorage.getItem(this.TAB_STORAGE_KEY))
+        : this.defaultTaskState
+
+      this.tasks = tasksFromLocalStorage
+      this.currentTab = currentTabLocalStorage
+    },
+    setTasksAndTabLocalStorage() {
+      localStorage.setItem(this.TASKS_STORAGE_KEY, JSON.stringify(this.tasks))
+      localStorage.setItem(this.TAB_STORAGE_KEY, JSON.stringify(this.currentTab))
     }
   },
   mounted() {
-    // TODO: get tasks from localStorage
+    this.getTasksAndTabLocalStorage()
   },
   computed: {
     tabOptions() {
@@ -124,6 +144,15 @@ export default {
     },
     tasksFiltered() {
       return this.tasks.filter(task => task.stateString === this.currentTab.name)
+    }
+  },
+  watch: {
+    tasks: {
+      handler: 'setTasksAndTabLocalStorage',
+      deep: true
+    },
+    currentTab: {
+      handler: 'setTasksAndTabLocalStorage',
     }
   }
 }
