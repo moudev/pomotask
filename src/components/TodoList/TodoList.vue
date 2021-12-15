@@ -1,23 +1,27 @@
 <template>
   <div>
     <div>
-      <input type="text" placeholder="task" v-model="taskInput" />  
+      <input type="text" placeholder="task" v-model="taskInput" @keydown.enter="addTask" ref="taskInput" />
       <button class="border p-2" @click="addTask">Add</button>  
     </div>  
-    <div v-if="tasks.length > 0" @drop="drop($event)" @dragover.prevent @dragenter.prevent>
+    <TabNav
+      :tabs="tabOptions"
+      :currentTab="currentTab"
+      @update-current-tab="updateCurrentTab"
+    />
+    <div v-if="tasksFiltered.length > 0" @drop="drop($event)" @dragover.prevent @dragenter.prevent>
       <div
-        v-for="(task, taskIndex) in tasks"
+        v-for="task in tasksFiltered"
         :key="task.id"
-        :class="{ 'line-through text-color-secondary': task.completed }"
         class="border flex justify-around items-center cursor-pointer hover:bg-secondary"
         draggable
-        @dragstart="dragstart($event, taskIndex)"
-        @dragenter="dragenter($event, taskIndex)"
+        @dragstart="dragstart(task.id)"
+        @dragenter="dragenter(task.id)"
       >
         <div class="flex justify-items-center">
-          <CheckboxCheckedFilled v-if="task.completed"/>
-          <Checkbox v-else/>
-          <input type="checkbox" :checked="task.completed" @click="toggleTaskState(task)" />
+          <select :value="task.stateString" @change="toggleTaskState($event, task)">
+            <option v-for="tab in tabOptions" :key="tab.name" :value="tab.name">{{ tab.name }}</option>
+          </select>
         </div>
         <span>{{ task.text }}</span>
         <div class="flex justify-items-center">
@@ -40,20 +44,20 @@
 </template>
 
 <script>
-import Checkbox from '~icons/carbon/checkbox'
-import CheckboxCheckedFilled from '~icons/carbon/checkbox-checked-filled'
 import Edit from '~icons/carbon/edit'
 import Delete from '~icons/carbon/delete'
 import Draggable from '~icons/carbon/draggable'
+import TabNav from './TabNav.vue'
+
 import { uuid } from './../../utils'
+import { tabs } from './tabs'
 
 export default {
   components: {
-    Checkbox,
-    CheckboxCheckedFilled,
     Edit,
     Delete,
     Draggable,
+    TabNav,
   }, 
   data() {
     return {
@@ -61,24 +65,27 @@ export default {
       tasks: [],
       fromIndex: 0,
       toIndex: 0,
+      currentTab: tabs.filter(t => t.isDefaultTab)[0],
+      defaultTaskState: tabs.filter(t => t.isDefaultTab)[0],
     }
   },
   methods: {
-    toggleTaskState(task) {
+    toggleTaskState(e, task) {
       const { id } = task
       const index = this.tasks.findIndex(task => task.id === id)
-      this.tasks[index].completed = !this.tasks[index].completed
+      this.tasks[index].stateString = e.target.selectedOptions[0].value
     },
     addTask() {
       if (!this.taskInput) return
 
       this.tasks.push({
         id: uuid(),
-        completed: false,
+        stateString: this.defaultTaskState.name,
         text: this.taskInput
       })
 
       this.taskInput = ''
+      this.$refs.taskInput.focus()
     },
     editTaskText(task) {
       console.log('edit', task.text)
@@ -88,12 +95,11 @@ export default {
       const index = this.tasks.findIndex(task => task.id === id)
       this.tasks.splice(index, 1)
     },
-    dragstart(e, taskIndex) {
-      e.dataTransfer.setData("text/plain", taskIndex)
-      this.fromIndex = taskIndex
+    dragstart(taskId) {
+      this.fromIndex = this.tasks.findIndex(task => task.id === taskId)
     },
-    dragenter(e, taskIndex) {
-      this.toIndex = taskIndex
+    dragenter(taskId) {
+      this.toIndex = this.tasks.findIndex(task => task.id === taskId)
     },
     drop() {
       const taskToAdd = this.tasks.splice(this.fromIndex, 1)[0]
@@ -102,6 +108,23 @@ export default {
       this.fromIndex = 0
       this.toIndex = 0
     },
+    updateCurrentTab(tab) {
+      this.currentTab = tab
+    }
   },
+  mounted() {
+    // TODO: get tasks from localStorage
+  },
+  computed: {
+    tabOptions() {
+      return tabs.map(tab => ({
+        ...tab,
+        count: this.tasks.filter(task => task.stateString === tab.name).length
+      }))
+    },
+    tasksFiltered() {
+      return this.tasks.filter(task => task.stateString === this.currentTab.name)
+    }
+  }
 }
 </script>
