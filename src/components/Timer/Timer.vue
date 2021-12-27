@@ -9,7 +9,7 @@
     <input
       v-if="!isPlaying"
       placeholder="Minutos"
-      class="border-primary rounded-md w-full text-black font-semibold pl-1 text-4xl"
+      class="border-primary rounded-md w-full text-black font-semibold pl-1 text-3xl"
       type="text"
       v-model="minutesToAdd"
       :min="MIN_MINUTES"
@@ -21,19 +21,25 @@
       :minutesToAdd="minutesToAdd"
       :isPlaying="isPlaying"
       @stopTimer="stopTimer"
+      class="w-full"
     />
+
+    <ToggleThemeButton class="ml-2" />
   </div>
 </template>
 
 <script>
 import TimerActions from "./TimerActions.vue"
 import TimerCounter from "./TimerCounter.vue"
+import ToggleThemeButton from '../ToggleThemeButton.vue'
+
 
 export default {
   name: 'App',
   components: {
     TimerActions,  
     TimerCounter,
+    ToggleThemeButton,
   },
   data() {
     return {
