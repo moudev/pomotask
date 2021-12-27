@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-6xl text-center w-full">
     {{ screenTime.minutes }}:{{ screenTime.seconds }}
   </div>
 </template>

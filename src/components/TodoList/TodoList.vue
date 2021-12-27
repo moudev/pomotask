@@ -1,39 +1,46 @@
 <template>
   <div>
-    <div>
-      <input type="text" placeholder="task" v-model="taskInput" @keydown.enter="addTask" ref="taskInput" />
-      <button class="border p-2" @click="addTask">Add</button>  
+    <div class="flex mb-4">
+      <input class="border-primary rounded-md w-full mr-2 text-black font-semibold pl-1" type="text" placeholder="Tarea" v-model="taskInput" @keydown.enter="addTask" ref="taskInput" />
+      <button class="border-primary py-1 px-2 rounded-md btn" @click="addTask">Agregar</button>
     </div>  
     <TabNav
       :tabs="tabOptions"
       :currentTab="currentTab"
       @update-current-tab="updateCurrentTab"
+      class="mb-4"
     />
+    <div class="mb-4">
+      <h2 class="text-center text-md font-semibold">Tareas</h2>
+      <hr>
+    </div>
     <div v-if="tasksFiltered.length > 0" @drop="drop($event)" @dragover.prevent @dragenter.prevent>
       <div
         v-for="task in tasksFiltered"
         :key="task.id"
-        class="border flex justify-around items-center cursor-pointer hover:bg-secondary"
+        class="border-primary rounded-md flex flex-col cursor-pointer my-2 p-2"
         draggable
         @dragstart="dragstart(task.id)"
         @dragenter="dragenter(task.id)"
       >
-        <div class="flex justify-items-center">
-          <select :value="task.stateString" @change="toggleTaskState($event, task)">
+        <div class="leading-none mb-4">
+          <span>{{ task.text }}</span>
+        </div>
+        <div class="flex justify-center">
+          <select  class="text-color-secondary rounded-md mr-2 border-primary capitalize" :value="task.stateString" @change="toggleTaskState($event, task)">
             <option v-for="tab in tabOptions" :key="tab.name" :value="tab.name">{{ tab.name }}</option>
           </select>
-        </div>
-        <span>{{ task.text }}</span>
-        <div class="flex justify-items-center">
-          <button class="border" v-if="!task.completed" @click="editTaskText(task)">
-            <Edit />
-          </button>
-          <button class="border" @click="deleteTask(task)">
-            <Delete />
-          </button>
-          <button class="border">
-            <Draggable />
-          </button>
+          <div class="flex justify-items-center">
+            <button class="border-primary rounded-md flex items-center p-1 mr-1 btn" v-if="!task.completed" @click="editTaskText(task)">
+              <Edit />
+            </button>
+            <button class="border-primary rounded-md flex items-center p-1 mr-1 btn" @click="deleteTask(task)">
+              <Delete />
+            </button>
+            <button class="border-primary rounded-md flex items-center p-1 btn">
+              <Roadmap />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -46,7 +53,7 @@
 <script>
 import Edit from '~icons/carbon/edit'
 import Delete from '~icons/carbon/delete'
-import Draggable from '~icons/carbon/draggable'
+import Roadmap from '~icons/carbon/roadmap'
 import TabNav from './TabNav.vue'
 
 import { uuid } from './../../utils'
@@ -56,7 +63,7 @@ export default {
   components: {
     Edit,
     Delete,
-    Draggable,
+    Roadmap,
     TabNav,
   }, 
   data() {

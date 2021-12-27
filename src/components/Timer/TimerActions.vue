@@ -1,9 +1,9 @@
 <template>
-  <div class="text-6xl">
-    <button v-if="isPlaying" @click="stopTimer">
+  <div class="text-6xl flex justify-items-center">
+    <button v-if="isPlaying" @click="stopTimer" class="flex btn rounded-full">
       <PauseOutline />
     </button>
-    <button v-else @click="startTimer">
+    <button v-else @click="startTimer" class="flex btn rounded-full">
       <PlayOutline />
     </button>
   </div>

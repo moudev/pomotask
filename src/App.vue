@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-main text-color-main overflow-hidden">
+  <div class="bg-main text-color-main overflow-hidden px-2 pb-16">
     <Timer />
     <ToggleThemeButton />
     <TodoList />

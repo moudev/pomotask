@@ -1,7 +1,6 @@
 <template>
-  <div class="flex justify-around">
+  <div class="flex justify-between items-center">
     <TimerActions
-      class="border"
       :isPlaying="isPlaying"
       @startTimer="startTimer"
       @stopTimer="stopTimer"
@@ -9,21 +8,20 @@
     
     <input
       v-if="!isPlaying"
-      class="border bg-main"
+      placeholder="Minutos"
+      class="border-primary rounded-md w-full text-black font-semibold pl-1 text-4xl"
       type="text"
       v-model="minutesToAdd"
       :min="MIN_MINUTES"
+      :max="MAX_MINUTES"
     />
 
     <TimerCounter
       v-show="isPlaying"
-      class="border"
       :minutesToAdd="minutesToAdd"
       :isPlaying="isPlaying"
       @stopTimer="stopTimer"
     />
-    <!-- <h1 class="text-color-main">Primary</h1>
-    <h2 class="text-color-secondary">Secondary</h2> -->
   </div>
 </template>
 
@@ -40,7 +38,7 @@ export default {
   data() {
     return {
       isPlaying: false,
-      minutesToAdd: "0",
+      minutesToAdd: "",
       MIN_MINUTES: 1,
       MAX_MINUTES: 60,
     }
