@@ -1,5 +1,5 @@
 <template>
-  <button @click="toggleTheme">
+  <button @click="toggleTheme" class="border-primary rounded-md flex p-1 btn">
     <Sun v-if="isDark"/>
     <Moon v-else />
   </button>

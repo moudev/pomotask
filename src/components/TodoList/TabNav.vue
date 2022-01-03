@@ -1,16 +1,22 @@
 <template>
-  <div v-if="tabs.length > 0" class="flex justify-around">
-    <button v-for="tab in tabs" class="border" :key="tab.name" @click="updateCurrentTab(tab)">
-      <span class="capitalize" :class="{'bg-red-500': tab.name.toLowerCase() === currentTab.name.toLowerCase() }">
+  <div v-if="tabs.length > 0" class="flex flex-col text-md">
+    <button v-for="tab in tabs" class="border-primary rounded-md relative px-2 py-1 flex items-center btn" :key="tab.name" @click="updateCurrentTab(tab)" :class="{'bg-hover': tab.name.toLowerCase() === currentTab.name.toLowerCase() }">
+      <ChevronRight />  
+      <span class="capitalize" >
         {{ tab.name }}
-        <span>({{ tab.count }})</span>
       </span>
+      <span class="border-primary rounded-full py-1 px-2 text-xs bg-main self-end">{{ tab.count }}</span>
     </button>
   </div>
 </template>
 
 <script>
+import ChevronRight from '~icons/carbon/chevron-right'
+
 export default {
+  components: {
+    ChevronRight,
+  },
   props: {
     tabs: {
       type: Array,
