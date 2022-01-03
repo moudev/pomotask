@@ -23,16 +23,18 @@
         @dragstart="dragstart(task.id)"
         @dragenter="dragenter(task.id)"
       >
-        <div class="leading-none mb-4">
-          <span>{{ task.text }}</span>
+        <div class="leading-none mb-4 flex flex-col">
+          <textarea v-if="task.edit" v-model="task.text" class="border-primary text-black rounded-md pl-1 pt-2 h-20" />
+          <span v-else>{{ task.text }}</span>
         </div>
-        <div class="flex justify-center">
+        <div class="flex justify-between">
           <select  class="text-color-secondary rounded-md mr-2 border-primary capitalize" :value="task.stateString" @change="toggleTaskState($event, task)">
             <option v-for="tab in tabOptions" :key="tab.name" :value="tab.name">{{ tab.name }}</option>
           </select>
           <div class="flex justify-items-center">
-            <button class="border-primary rounded-md flex items-center p-1 mr-1 btn" v-if="!task.completed" @click="editTaskText(task)">
-              <Edit />
+            <button class="border-primary rounded-md flex items-center p-1 mr-1 btn" @click="task.edit ? toggleEditTaskText(task) : toggleEditTaskText(task)">
+              <Save v-if="task.edit" />
+              <Edit v-else />
             </button>
             <button class="border-primary rounded-md flex items-center p-1 mr-1 btn" @click="deleteTask(task)">
               <Delete />
@@ -45,7 +47,7 @@
       </div>
     </div>
     <div v-else class="text-center">
-      Sin tareas pendientes
+      Sin tareas
     </div>
   </div>
 </template>
@@ -54,6 +56,7 @@
 import Edit from '~icons/carbon/edit'
 import Delete from '~icons/carbon/delete'
 import Roadmap from '~icons/carbon/roadmap'
+import Save from '~icons/carbon/save'
 import TabNav from './TabNav.vue'
 
 import { uuid } from './../../utils'
@@ -64,6 +67,7 @@ export default {
     Edit,
     Delete,
     Roadmap,
+    Save,
     TabNav,
   }, 
   data() {
@@ -90,14 +94,15 @@ export default {
       this.tasks.push({
         id: uuid(),
         stateString: this.defaultTaskState.name,
-        text: this.taskInput
+        text: this.taskInput,
+        edit: false,
       })
 
       this.taskInput = ''
       this.$refs.taskInput.focus()
     },
-    editTaskText(task) {
-      console.log('edit', task.text)
+    toggleEditTaskText(task) {
+      task.edit = !task.edit
     },
     deleteTask(task) {
       const { id } = task

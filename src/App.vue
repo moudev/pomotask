@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-main text-color-main overflow-hidden px-2 pb-16 flex flex-col gap-4">
+  <div class="bg-main min-h-screen text-color-main overflow-hidden px-2 pb-16 flex flex-col gap-4">
     <Timer />
     <TodoList />
   </div>
