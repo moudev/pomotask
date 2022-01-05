@@ -6,14 +6,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      intervalTimerId: null,
-      distanceTimeMsec: 0,
-      limitTimeMSec: 0,
-      INTERVALS_STORAGE_KEY: 'intervals',
-    }
-  },
   props: {
     isPlaying: {
       type: Boolean,
@@ -24,6 +16,34 @@ export default {
       type: String,
       required: true,
       default: "0",
+    }
+  },
+  data() {
+    return {
+      intervalTimerId: null,
+      distanceTimeMsec: 0,
+      limitTimeMSec: 0,
+      INTERVALS_STORAGE_KEY: 'intervals',
+    }
+  },
+  computed: {
+    screenTime() {
+      const minutes =Math.floor((this.distanceTimeMsec % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds = Math.floor((this.distanceTimeMsec % (1000 * 60)) / 1000)
+
+      return {
+        minutes: minutes < 10 ? `0${minutes}` : minutes,
+        seconds: seconds  < 10 ? `0${seconds}` : seconds,
+      }
+    }
+  },
+  watch: {
+    isPlaying(newVal) {
+      if (newVal) {
+        this.startTimer()
+      } else {
+        this.stopTimer()
+      }
     }
   },
   methods: {
@@ -71,26 +91,6 @@ export default {
       this.distanceTimeMsec = 0
       this.clearIntervals()
     },
-  },
-  computed: {
-    screenTime() {
-      const minutes =Math.floor((this.distanceTimeMsec % (1000 * 60 * 60)) / (1000 * 60))
-      const seconds = Math.floor((this.distanceTimeMsec % (1000 * 60)) / 1000)
-
-      return {
-        minutes: minutes < 10 ? `0${minutes}` : minutes,
-        seconds: seconds  < 10 ? `0${seconds}` : seconds,
-      }
-    }
-  },
-  watch: {
-    isPlaying(newVal) {
-      if (newVal) {
-        this.startTimer()
-      } else {
-        this.stopTimer()
-      }
-    }
   }
 }
 </script>

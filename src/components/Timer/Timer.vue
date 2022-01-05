@@ -1,27 +1,27 @@
 <template>
   <div class="flex justify-between items-center">
     <TimerActions
-      :isPlaying="isPlaying"
+      :is-playing="isPlaying"
       @startTimer="startTimer"
       @stopTimer="stopTimer"
     />
     
     <input
       v-if="!isPlaying"
+      v-model="minutesToAdd"
       placeholder="Minutos"
       class="border-primary rounded-md w-full text-black font-semibold pl-1 text-3xl"
       type="text"
-      v-model="minutesToAdd"
       :min="MIN_MINUTES"
       :max="MAX_MINUTES"
-    />
+    >
 
     <TimerCounter
       v-show="isPlaying"
-      :minutesToAdd="minutesToAdd"
-      :isPlaying="isPlaying"
-      @stopTimer="stopTimer"
+      :minutes-to-add="minutesToAdd"
+      :is-playing="isPlaying"
       class="w-full"
+      @stopTimer="stopTimer"
     />
 
     <ToggleThemeButton class="ml-2" />
