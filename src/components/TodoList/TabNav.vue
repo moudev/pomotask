@@ -1,11 +1,24 @@
 <template>
-  <div v-if="tabs.length > 0" class="flex flex-col text-md">
-    <button v-for="tab in tabs" class="border-primary rounded-md relative px-2 py-1 flex items-center btn" :key="tab.name" @click="updateCurrentTab(tab)" :class="{'bg-hover': tab.name.toLowerCase() === currentTab.name.toLowerCase() }">
+  <div
+    v-if="tabs.length > 0"
+    class="flex flex-col text-md"
+  >
+    <button
+      v-for="tab in tabs"
+      :key="tab.name"
+      class="border-primary rounded-md relative px-2 py-1 flex items-center btn"
+      :class="{'bg-hover': tab.name.toLowerCase() === currentTab.name.toLowerCase() }"
+      @click="updateCurrentTab(tab)"
+    >
       <ChevronRight />  
-      <span class="capitalize" >
+      <span class="capitalize">
         {{ tab.name }}
       </span>
-      <span class="border-primary rounded-full py-1 px-2 text-xs bg-main self-end">{{ tab.count }}</span>
+      <span
+        class="border-primary rounded-full py-1 px-2 text-xs bg-main self-end"
+      >
+        {{ tab.count }}
+      </span>
     </button>
   </div>
 </template>

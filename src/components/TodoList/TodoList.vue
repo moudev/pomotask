@@ -1,20 +1,39 @@
 <template>
   <div>
     <div class="flex mb-4">
-      <input class="border-primary rounded-md w-full mr-2 text-black font-semibold pl-1" type="text" placeholder="Tarea" v-model="taskInput" @keydown.enter="addTask" ref="taskInput" />
-      <button class="border-primary py-1 px-2 rounded-md btn" @click="addTask">Agregar</button>
+      <input
+        ref="taskInput"
+        v-model="taskInput"
+        class="border-primary rounded-md w-full mr-2 text-black font-semibold pl-1"
+        type="text"
+        placeholder="Tarea"
+        @keydown.enter="addTask"
+      >
+      <button
+        class="border-primary py-1 px-2 rounded-md btn"
+        @click="addTask"
+      >
+        Agregar
+      </button>
     </div>  
     <TabNav
       :tabs="tabOptions"
-      :currentTab="currentTab"
-      @update-current-tab="updateCurrentTab"
+      :current-tab="currentTab"
       class="mb-4"
+      @update-current-tab="updateCurrentTab"
     />
     <div class="mb-4">
-      <h2 class="text-center text-md font-semibold">Tareas</h2>
+      <h2 class="text-center text-md font-semibold">
+        Tareas
+      </h2>
       <hr>
     </div>
-    <div v-if="tasksFiltered.length > 0" @drop="drop($event)" @dragover.prevent @dragenter.prevent>
+    <div
+      v-if="tasksFiltered.length > 0"
+      @drop="drop($event)"
+      @dragover.prevent
+      @dragenter.prevent
+    >
       <div
         v-for="task in tasksFiltered"
         :key="task.id"
@@ -24,19 +43,39 @@
         @dragenter="dragenter(task.id)"
       >
         <div class="leading-none mb-4 flex flex-col">
-          <textarea v-if="task.edit" v-model="task.text" class="border-primary text-black rounded-md pl-1 pt-2 h-20" />
+          <textarea
+            v-if="task.edit"
+            v-model="task.text"
+            class="border-primary text-black rounded-md pl-1 pt-2 h-20"
+          />
           <span v-else>{{ task.text }}</span>
         </div>
         <div class="flex justify-between">
-          <select  class="text-color-secondary rounded-md mr-2 border-primary capitalize" :value="task.stateString" @change="toggleTaskState($event, task)">
-            <option v-for="tab in tabOptions" :key="tab.name" :value="tab.name">{{ tab.name }}</option>
+          <select
+            class="text-color-secondary rounded-md mr-2 border-primary capitalize"
+            :value="task.stateString"
+            @change="toggleTaskState($event, task)"
+          >
+            <option
+              v-for="tab in tabOptions"
+              :key="tab.name"
+              :value="tab.name"
+            >
+              {{ tab.name }}
+            </option>
           </select>
           <div class="flex justify-items-center">
-            <button class="border-primary rounded-md flex items-center p-1 mr-1 btn" @click="task.edit ? toggleEditTaskText(task) : toggleEditTaskText(task)">
+            <button
+              class="border-primary rounded-md flex items-center p-1 mr-1 btn"
+              @click="task.edit ? toggleEditTaskText(task) : toggleEditTaskText(task)"
+            >
               <Save v-if="task.edit" />
               <Edit v-else />
             </button>
-            <button class="border-primary rounded-md flex items-center p-1 mr-1 btn" @click="deleteTask(task)">
+            <button
+              class="border-primary rounded-md flex items-center p-1 mr-1 btn"
+              @click="deleteTask(task)"
+            >
               <Delete />
             </button>
             <button class="border-primary rounded-md flex items-center p-1 btn">
@@ -46,7 +85,10 @@
         </div>
       </div>
     </div>
-    <div v-else class="text-center">
+    <div
+      v-else
+      class="text-center"
+    >
       Sin tareas
     </div>
   </div>
@@ -81,6 +123,29 @@ export default {
       TASKS_STORAGE_KEY: 'taks',
       TAB_STORAGE_KEY: 'currentTab',
     }
+  },
+  computed: {
+    tabOptions() {
+      return tabs.map(tab => ({
+        ...tab,
+        count: this.tasks.filter(task => task.stateString === tab.name).length
+      }))
+    },
+    tasksFiltered() {
+      return this.tasks.filter(task => task.stateString === this.currentTab.name)
+    }
+  },
+  watch: {
+    tasks: {
+      handler: 'setTasksAndTabLocalStorage',
+      deep: true
+    },
+    currentTab: {
+      handler: 'setTasksAndTabLocalStorage',
+    }
+  },
+  mounted() {
+    this.getTasksAndTabLocalStorage()
   },
   methods: {
     toggleTaskState(e, task) {
@@ -142,29 +207,6 @@ export default {
     setTasksAndTabLocalStorage() {
       localStorage.setItem(this.TASKS_STORAGE_KEY, JSON.stringify(this.tasks))
       localStorage.setItem(this.TAB_STORAGE_KEY, JSON.stringify(this.currentTab))
-    }
-  },
-  mounted() {
-    this.getTasksAndTabLocalStorage()
-  },
-  computed: {
-    tabOptions() {
-      return tabs.map(tab => ({
-        ...tab,
-        count: this.tasks.filter(task => task.stateString === tab.name).length
-      }))
-    },
-    tasksFiltered() {
-      return this.tasks.filter(task => task.stateString === this.currentTab.name)
-    }
-  },
-  watch: {
-    tasks: {
-      handler: 'setTasksAndTabLocalStorage',
-      deep: true
-    },
-    currentTab: {
-      handler: 'setTasksAndTabLocalStorage',
     }
   }
 }

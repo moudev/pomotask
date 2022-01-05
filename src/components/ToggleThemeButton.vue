@@ -1,6 +1,9 @@
 <template>
-  <button @click="toggleTheme" class="border-primary rounded-md flex p-1 btn">
-    <Sun v-if="isDark"/>
+  <button
+    class="border-primary rounded-md flex p-1 btn"
+    @click="toggleTheme"
+  >
+    <Sun v-if="isDark" />
     <Moon v-else />
   </button>
 </template>
@@ -21,18 +24,6 @@ export default {
       THEME_STORAGE_KEY: 'theme',
     }
   },
-  methods: {
-    // https://windicss.org/features/dark-mode.html#class-mode
-    toggleTheme() {
-      document.documentElement.classList.toggle(this.DARK_CLASS_NAME)
-      this.isDark = !this.isDark
-    },
-    setThemeFromStorage() {
-      const theme = localStorage.getItem(this.THEME_STORAGE_KEY) ? localStorage.getItem(this.THEME_STORAGE_KEY) : ''
-      this.isDark = theme === this.DARK_CLASS_NAME
-      document.documentElement.classList.toggle(theme)
-    },
-  },
   watch: {
     isDark() {
       const theme = this.isDark ? this.DARK_CLASS_NAME : ''
@@ -41,6 +32,21 @@ export default {
   },
   mounted() {
     this.setThemeFromStorage()
+  },
+  methods: {
+    // https://windicss.org/features/dark-mode.html#class-mode
+    toggleTheme() {
+      document.documentElement.classList.toggle(this.DARK_CLASS_NAME)
+      this.isDark = !this.isDark
+    },
+    setThemeFromStorage() {
+      const theme = localStorage
+        .getItem(this.THEME_STORAGE_KEY)
+          ? localStorage.getItem(this.THEME_STORAGE_KEY)
+          : ''
+      this.isDark = theme === this.DARK_CLASS_NAME
+      document.documentElement.classList.toggle(theme)
+    },
   },
 }
 </script>
