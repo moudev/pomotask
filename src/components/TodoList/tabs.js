@@ -1,14 +1,14 @@
 export const tabs = [
   {
-    name: 'current',
+    name: 'proceso',
     count: 0,
   },
   {
-    name: 'completed',
+    name: 'completado',
     count: 0,
   },
   {
-    name: 'pending',
+    name: 'pendiente',
     count: 0,
     isDefaultTab: true,
   },
