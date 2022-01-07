@@ -1,15 +1,15 @@
 <template>
-  <div class="text-5xl flex justify-items-center">
+  <div class="flex justify-items-center text-5xl">
     <button
       v-if="isPlaying"
-      class="flex btn rounded-full"
+      class="btn flex rounded-full"
       @click="stopTimer"
     >
       <PauseOutline />
     </button>
     <button
       v-else
-      class="flex btn rounded-full"
+      class="btn flex rounded-full"
       @click="startTimer"
     >
       <PlayOutline />

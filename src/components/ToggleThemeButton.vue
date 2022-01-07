@@ -1,6 +1,6 @@
 <template>
   <button
-    class="border-primary rounded-md flex p-1 btn"
+    class="border-primary btn rounded-md p-1 flex"
     @click="toggleTheme"
   >
     <Sun v-if="isDark" />

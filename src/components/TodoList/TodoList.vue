@@ -4,13 +4,13 @@
       <input
         ref="taskInput"
         v-model="taskInput"
-        class="border-primary rounded-md w-full mr-2 text-black font-semibold pl-1"
+        class="border-primary rounded-md w-full mr-2 pl-1 text-black font-semibold"
         type="text"
         placeholder="Tarea"
         @keydown.enter="addTask"
       >
       <button
-        class="border-primary py-1 px-2 rounded-md btn"
+        class="border-primary btn rounded-md py-1 px-2"
         @click="addTask"
       >
         Agregar
@@ -37,7 +37,7 @@
       <div
         v-for="task in tasksFiltered"
         :key="task.id"
-        class="border-primary rounded-md flex flex-col cursor-pointer my-2 p-2"
+        class="border-primary rounded-md my-2 p-2 flex flex-col cursor-pointer"
         draggable
         @dragstart="dragstart(task.id)"
         @dragenter="dragenter(task.id)"
@@ -46,13 +46,13 @@
           <textarea
             v-if="task.edit"
             v-model="task.text"
-            class="border-primary text-black rounded-md pl-1 pt-2 h-20"
+            class="border-primary rounded-md pl-1 pt-2 h-20 text-black"
           />
           <span v-else>{{ task.text }}</span>
         </div>
         <div class="flex justify-between">
           <select
-            class="text-color-secondary rounded-md mr-2 border-primary capitalize"
+            class="text-color-secondary border-primary rounded-md mr-2 w-full capitalize"
             :value="task.stateString"
             @change="toggleTaskState($event, task)"
           >
@@ -66,19 +66,19 @@
           </select>
           <div class="flex justify-items-center">
             <button
-              class="border-primary rounded-md flex items-center p-1 mr-1 btn"
+              class="border-primary btn rounded-md p-1 mr-1 flex items-center"
               @click="task.edit ? toggleEditTaskText(task) : toggleEditTaskText(task)"
             >
               <Save v-if="task.edit" />
               <Edit v-else />
             </button>
             <button
-              class="border-primary rounded-md flex items-center p-1 mr-1 btn"
+              class="border-primary btn rounded-md p-1 mr-1 flex items-center"
               @click="deleteTask(task)"
             >
               <Delete />
             </button>
-            <button class="border-primary rounded-md flex items-center p-1 btn">
+            <button class="border-primary btn rounded-md p-1 flex items-center">
               <Roadmap />
             </button>
           </div>
