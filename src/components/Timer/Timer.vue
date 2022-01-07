@@ -6,15 +6,21 @@
       @stopTimer="stopTimer"
     />
     
-    <input
-      v-if="!isPlaying"
-      v-model="minutesToAdd"
-      placeholder="Minutos"
-      class="border-primary rounded-md w-full text-black font-semibold pl-1 text-3xl"
-      type="text"
-      :min="MIN_MINUTES"
-      :max="MAX_MINUTES"
-    >
+    <div class="w-full pt-3">
+      <input
+        v-if="!isPlaying"
+        v-model="minutesToAdd"
+        placeholder="Minutos"
+        class="border-primary rounded-md w-full pl-1 mb-1 text-black font-semibold text-3xl"
+        type="text"
+        :min="MIN_MINUTES"
+        :max="MAX_MINUTES"
+      >
+      <p class="text-[0.5rem] text-color-secondary">
+        Máximo 60 minutos
+      </p>
+    </div>    
+    
 
     <TimerCounter
       v-show="isPlaying"
@@ -32,7 +38,6 @@
 import TimerActions from "./TimerActions.vue"
 import TimerCounter from "./TimerCounter.vue"
 import ToggleThemeButton from '../ToggleThemeButton.vue'
-
 
 export default {
   name: 'App',

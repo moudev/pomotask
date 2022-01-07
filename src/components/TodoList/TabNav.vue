@@ -6,7 +6,7 @@
     <button
       v-for="tab in tabs"
       :key="tab.name"
-      class="border-primary rounded-md relative px-2 py-1 flex items-center btn"
+      class="border-primary btn rounded-md px-2 py-1 flex items-center"
       :class="{'bg-hover': tab.name.toLowerCase() === currentTab.name.toLowerCase() }"
       @click="updateCurrentTab(tab)"
     >
@@ -15,7 +15,7 @@
         {{ tab.name }}
       </span>
       <span
-        class="border-primary rounded-full py-1 px-2 text-xs bg-main self-end"
+        class="border-primary bg-main self-end rounded-full py-1 px-2 text-xs"
       >
         {{ tab.count }}
       </span>
