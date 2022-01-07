@@ -2,11 +2,12 @@
   "name": "pomotask",
   "version": "0.1.0",
   "private": true,
+  "author": "Mauricio Martínez <mauriciomartinezsocial@gmail.com>",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "electron:build": "vue-cli-service electron:build",
+    "electron:build": "vue-cli-service electron:build --windows --ia32 --linux tar.xz",
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps"
