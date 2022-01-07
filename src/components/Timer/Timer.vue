@@ -6,9 +6,11 @@
       @stopTimer="stopTimer"
     />
     
-    <div class="w-full pt-3">
+    <div
+      v-if="!isPlaying"
+      class="w-full pt-3"
+    >
       <input
-        v-if="!isPlaying"
         v-model="minutesToAdd"
         placeholder="Minutos"
         class="border-primary rounded-md w-full pl-1 mb-1 text-black font-semibold text-3xl"
